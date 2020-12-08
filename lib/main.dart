@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Foodybite',
+      title: ' Baby Care',
       theme: ThemeData(
         textTheme:
             GoogleFonts.josefinSansTextTheme(Theme.of(context).textTheme),

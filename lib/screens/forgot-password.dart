@@ -12,7 +12,7 @@ class ForgotPassword extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Stack(
       children: [
-        BackgroundImage(image: 'assets/images/login_bg.png'),
+        BackgroundImage(image: 'assets/images/PROfile.png'),
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(

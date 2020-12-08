@@ -9,7 +9,7 @@ class LoginScreen extends StatelessWidget {
     return Stack(
       children: [
         BackgroundImage(
-          image: 'assets/images/login_bg.png',
+          image: 'assets/images/PROfile.png',
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
@@ -18,10 +18,10 @@ class LoginScreen extends StatelessWidget {
               Flexible(
                 child: Center(
                   child: Text(
-                    'Foodybite',
+                    'Baby Care',
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 60,
+                        color: Colors.blue[300],
+                        fontSize: 80,
                         fontWeight: FontWeight.bold),
                   ),
                 ),
