@@ -47,6 +47,15 @@ class LoginScreen extends StatelessWidget {
                       style: kBodyText,
                     ),
                   ),
+
+                     GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, 'firstpage'),
+                    child: Text(
+                      'Firstpage',
+                      style: kBodyText,
+                    ),
+                  ),
+
                   SizedBox(
                     height: 25,
                   ),
