@@ -67,7 +67,7 @@ class CreateNewAccount extends StatelessWidget {
                     TextInputField(
                       icon: FontAwesomeIcons.user,
                       hint: 'User',
-                      inputType: TextInputType.name,
+                      inputType: TextInputType.text,
                       inputAction: TextInputAction.next,
                     ),
                     TextInputField(

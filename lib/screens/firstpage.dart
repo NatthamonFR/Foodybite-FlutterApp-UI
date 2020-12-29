@@ -1,127 +1,338 @@
 import 'package:flutter/material.dart';
-
 import 'create-new-account.dart';
+import 'forgot-password.dart';
+import 'package:google_fonts/google_fonts.dart';
+class CurvedNavigationBar extends StatefulWidget {
+  final List<Widget> items;
+  final int index;
+  final Color color;
+  final Color buttonBackgroundColor;
+  final Color backgroundColor;
+  final ValueChanged<int> onTap;
+  final Curve animationCurve;
+  final Duration animationDuration;
+  final double height;
 
+  CurvedNavigationBar({
+    Key key,
+    @required this.items,
+    this.index = 0,
+    this.color = Colors.white,
+    this.buttonBackgroundColor,
+    this.backgroundColor = Colors.blueAccent,
+    this.onTap,
+    this.animationCurve = Curves.easeOut,
+    this.animationDuration = const Duration(milliseconds: 600),
+    this.height = 75.0,
+  })  : assert(items != null),
+        assert(items.length >= 1),
+        assert(0 <= index && index < items.length),
+        assert(0 <= height && height <= 75.0),
+        super(key: key);
 
-class firstpage extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Home(),
-      debugShowCheckedModeBanner: false,
-    );
+  CurvedNavigationBarState createState() => CurvedNavigationBarState();
+}
+
+class CurvedNavigationBarState extends State<CurvedNavigationBar>
+    with SingleTickerProviderStateMixin {
+  double _startingPos;
+  int _endingIndex = 0;
+  double _pos;
+  double _buttonHide = 0;
+  Widget _icon;
+  AnimationController _animationController;
+  int _length;
+
+  @override
+  void initState() {
+    super.initState();
+    _icon = widget.items[widget.index];
+    _length = widget.items.length;
+    _pos = widget.index / _length;
+    _startingPos = widget.index / _length;
+    _animationController = AnimationController(vsync: this, value: _pos);
+    _animationController.addListener(() {
+      setState(() {
+        _pos = _animationController.value;
+        final endingPos = _endingIndex / widget.items.length;
+        final middle = (endingPos + _startingPos) / 2;
+        if ((endingPos - _pos).abs() < (_startingPos - _pos).abs()) {
+          _icon = widget.items[_endingIndex];
+        }
+        _buttonHide =
+            (1 - ((middle - _pos) / (_startingPos - middle)).abs()).abs();
+      });
+    });
   }
-}
-
-class Home extends StatefulWidget {
-  Home({Key key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
-}
+  void didUpdateWidget(CurvedNavigationBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.index != widget.index) {
+      final newPosition = widget.index / _length;
+      _startingPos = _pos;
+      _endingIndex = widget.index;
+      _animationController.animateTo(newPosition,
+          duration: widget.animationDuration, curve: widget.animationCurve);
+    }
+  }
 
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
-
-class _HomeState extends State<Home> with TickerProviderStateMixin {
-  String _selectedTab = "Home";
   @override
   Widget build(BuildContext context) {
-   
-    return Scaffold(
-        body: Column( 
-      children: [
-        Expanded(
-            child: Container(
-          color: _selectedTab == "Home"
-                  ? Colors.blueGrey
-                 : (_selectedTab == "Graph"
-                  ? Colors.blueGrey
-                  : (_selectedTab == "Settings"
-                  ? Colors.blueGrey
-                    : (_selectedTab == "Diary"
-                  ? Colors.blueGrey
-                  : (_selectedTab == "Activity" 
-                  ? Colors.blueGrey : Colors.black)))
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      color: widget.backgroundColor,
+      height: widget.height,
+      child: Stack(
+        overflow: Overflow.visible,
+        alignment: Alignment.bottomCenter,
+        children: <Widget>[
+          Positioned(
+            bottom: -40 - (75.0 - widget.height),
+            left: Directionality.of(context) == TextDirection.rtl
+                ? null
+                : _pos * size.width,
+            right: Directionality.of(context) == TextDirection.rtl
+                ? _pos * size.width
+                : null,
+            width: size.width / _length,
+            child: Center(
+              child: Transform.translate(
+                offset: Offset(
+                  0,
+                  -(1 - _buttonHide) * 80,
+                ),
+                child: Material(
+                  color: widget.buttonBackgroundColor ?? widget.color,
+                  type: MaterialType.circle,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _icon,
                   ),
-                 
-
-
-
-
-        )),
-        // Tab Bar...
-        Padding(
-          // Safe Rea Value...
-          padding: EdgeInsets.only(
-              left: 15.0,
-              right: 15,
-              top: 12,
-              bottom: MediaQuery.of(context).padding.bottom),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TabBarButton(context, Icon(Icons.home), "Home"),             
-              TabBarButton(context, Icon(Icons.notifications), "Activity"),
-              TabBarButton(context, Icon(Icons.photo), "Diary"),
-              TabBarButton(context, Icon(Icons.bar_chart_rounded), "Graph"),
-              TabBarButton(context, Icon(Icons.settings), "Settings"),
-            ],
+                ),
+              ),
+            ),
           ),
-        )
-      ],
-    ));
-  }
-
-  // Tab Bar Button...
- // ignore: missing_return
-
-
-
-  @override
-  Widget TabBarButton(BuildContext context, Icon icon, String title) {
-    return AnimatedContainer(
-      curve: Curves.easeOut,
-      duration: Duration(milliseconds: 180),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          color: _selectedTab == title ? Colors.purple : Colors.transparent),
-      child: GestureDetector(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Row(
-            children: [
-              Icon(icon.icon,
-                  size: 25,
-                  color: _selectedTab == title ? Colors.white : Colors.grey),
-              Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: AnimatedSize(
-                    duration: Duration(milliseconds: 180),
-                    curve: Curves.easeOut,
-                    vsync: this,
-                    child: Text(_selectedTab == title ? title : "",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: _selectedTab == title
-                                ? Colors.white
-                                : Colors.grey)),
-                  ))
-            ],
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0 - (75.0 - widget.height),
+            child: CustomPaint(
+              painter: NavCustomPainter(
+                  _pos, _length, widget.color, Directionality.of(context)),
+              child: Container(
+                height: 75.0,
+              ),
+            ),
           ),
-        ),
-        onTap: () {
-          setState(() {
-            _selectedTab = title;
-            
-          });
-        },
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0 - (75.0 - widget.height),
+            child: SizedBox(
+                height: 100.0,
+                child: Row(
+                    children: widget.items.map((item) {
+                  return NavButton(
+                    onTap: _buttonTap,
+                    position: _pos,
+                    length: _length,
+                    index: widget.items.indexOf(item),
+                    child: Center(child: item),
+                  );
+                }).toList())),
+          ),
+        ],
       ),
     );
+  }
+
+  void setPage(int index){
+    _buttonTap(index);
+  }
+
+  void _buttonTap(int index) {
+    if (widget.onTap != null) {
+      widget.onTap(index);
+    }
+    final newPosition = index / _length;
+    setState(() {
+      _startingPos = _pos;
+      _endingIndex = index;
+      _animationController.animateTo(newPosition,
+          duration: widget.animationDuration, curve: widget.animationCurve);
+    });
+  }
+}
+
+class NavButton extends StatelessWidget {
+  final double position;
+  final int length;
+  final int index;
+  final ValueChanged<int> onTap;
+  final Widget child;
+
+  NavButton({this.onTap, this.position, this.length, this.index, this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final desiredPosition = 1.0 / length * index;
+    final difference = (position - desiredPosition).abs();
+    final verticalAlignment = 1 - length * difference;
+    final opacity = length * difference;
+    return Expanded(
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          onTap(index);
+        },
+        child: Container(
+            height: 75.0,
+            child: Transform.translate(
+              offset: Offset(
+                  0, difference < 1.0 / length ? verticalAlignment * 40 : 0),
+              child: Opacity(
+                  opacity: difference < 1.0 / length * 0.99 ? opacity : 1.0,
+                  child: child),
+            )),
+      ),
+    );
+  }
+}
+
+class NavCustomPainter extends CustomPainter {
+  double loc;
+  double s;
+  Color color;
+  TextDirection textDirection;
+
+  NavCustomPainter(
+      double startingLoc, int itemsLength, this.color, this.textDirection) {
+    final span = 1.0 / itemsLength;
+    s = 0.2;
+    double l = startingLoc + (span - s) / 2;
+    loc = textDirection == TextDirection.rtl ? 0.8 - l : l;
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    final path = Path()
+      ..moveTo(0, 0)
+      ..lineTo((loc - 0.1) * size.width, 0)
+      ..cubicTo(
+        (loc + s * 0.20) * size.width,
+        size.height * 0.05,
+        loc * size.width,
+        size.height * 0.60,
+        (loc + s * 0.50) * size.width,
+        size.height * 0.60,
+      )
+      ..cubicTo(
+        (loc + s) * size.width,
+        size.height * 0.60,
+        (loc + s - s * 0.20) * size.width,
+        size.height * 0.05,
+        (loc + s + 0.1) * size.width,
+        0,
+      )
+      ..lineTo(size.width, 0)
+      ..lineTo(size.width, size.height)
+      ..lineTo(0, size.height)
+      ..close();
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return this != oldDelegate;
+  }
+}
+
+
+
+
+class firstpage extends StatefulWidget {
+  @override
+_MyHomeState createState() => _MyHomeState();
+}
+
+class _MyHomeState extends State<firstpage> {
+  int _page = 0;
+  String tabTitle="Home";
+
+  final ForgotPassword _submainTab1 = ForgotPassword();
+final CreateNewAccount _submainTab2 = CreateNewAccount();
+  Widget _showPage = new ForgotPassword();
+
+  Widget _selectedPage(int page){
+    switch (page){
+      case 0:
+      tabTitle="Home";
+      return _submainTab1;
+      break;
+
+      case 1:
+      tabTitle="Booking";
+      return _submainTab2;
+      break;
+
+      case 2:
+      tabTitle="History";
+      return _submainTab1;
+      break;
+
+      case 3:
+      tabTitle="Profile";
+      return _submainTab2;
+      break;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.deepPurple[300],
+              title: Text("${tabTitle}",
+              style: GoogleFonts.kanit(
+                fontStyle: FontStyle.normal,
+                fontSize: 25
+                )
+            ),
+            ),
+            bottomNavigationBar: CurvedNavigationBar(
+              index: _page,
+              height: 60.0,
+              items: <Widget>[
+                Icon(Icons.home,size: 40,color: Colors.white,),
+                Icon(Icons.add_shopping_cart, size: 40,color: Colors.white,),
+                Icon(Icons.history,size: 40,color: Colors.white,),
+                Icon(Icons.person, size: 40,color: Colors.white,)
+              ],
+              color: Colors.deepPurple[300],
+              buttonBackgroundColor: Colors.deepPurple[300],
+              backgroundColor: Colors.white,
+              onTap: (index) {
+                setState(() {
+                  _showPage = _selectedPage(index);
+                });
+              },
+            ),
+            body: Container(
+               child: _showPage,
+            ),));
+            
   }
 }
