@@ -25,6 +25,12 @@ class MyApp extends StatelessWidget {
         'ForgotPassword': (context) => ForgotPassword(),
         'CreateNewAccount': (context) => CreateNewAccount(),
         'firstpage': (context) => firstpage(),
+        'activity':(context)=> activity(),
+         'search':(context) => search(),
+         'graph':(context) => graph(),
+         'diary':(context) => diary(),
+         'vaccine' : (context) => vaccine(),
+         'setting':(context) => setting(),
       },
     );
   }

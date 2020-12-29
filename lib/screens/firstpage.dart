@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodybite_app/baby/babys.dart';
 import 'create-new-account.dart';
 import 'forgot-password.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -271,9 +272,14 @@ class _MyHomeState extends State<firstpage> {
   int _page = 0;
   String tabTitle="Home";
 
-  final ForgotPassword _submainTab1 = ForgotPassword();
-final CreateNewAccount _submainTab2 = CreateNewAccount();
-  Widget _showPage = new ForgotPassword();
+  final activity _submainTab1 = activity();
+  final vaccine _submainTab3 = vaccine();
+  final diary _submainTab4 = diary();
+  final graph _submainTab6 = graph();
+  final setting _submainTab7 = setting();
+
+
+  Widget _showPage = new activity();
 
   Widget _selectedPage(int page){
     switch (page){
@@ -283,19 +289,26 @@ final CreateNewAccount _submainTab2 = CreateNewAccount();
       break;
 
       case 1:
-      tabTitle="Booking";
-      return _submainTab2;
+      tabTitle="Vaccine";
+      return _submainTab3;
       break;
 
       case 2:
-      tabTitle="History";
-      return _submainTab1;
+      tabTitle="Diary";
+      return _submainTab4;
       break;
 
       case 3:
-      tabTitle="Profile";
-      return _submainTab2;
+      tabTitle="Graph";
+      return _submainTab6;
       break;
+
+      case 4:
+      tabTitle="setting";
+      return _submainTab7;
+      break;
+
+
     }
   }
 
@@ -303,26 +316,19 @@ final CreateNewAccount _submainTab2 = CreateNewAccount();
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.deepPurple[300],
-              title: Text("${tabTitle}",
-              style: GoogleFonts.kanit(
-                fontStyle: FontStyle.normal,
-                fontSize: 25
-                )
-            ),
-            ),
+           
             bottomNavigationBar: CurvedNavigationBar(
               index: _page,
               height: 60.0,
               items: <Widget>[
                 Icon(Icons.home,size: 40,color: Colors.white,),
-                Icon(Icons.add_shopping_cart, size: 40,color: Colors.white,),
-                Icon(Icons.history,size: 40,color: Colors.white,),
-                Icon(Icons.person, size: 40,color: Colors.white,)
+                Icon(Icons.local_hospital, size: 40,color: Colors.white,),
+                Icon(Icons.menu_book_outlined,size: 40,color: Colors.white,),
+                Icon(Icons.bar_chart_rounded, size: 40,color: Colors.white,),
+                Icon(Icons.settings, size: 40,color: Colors.white,)
               ],
-              color: Colors.deepPurple[300],
-              buttonBackgroundColor: Colors.deepPurple[300],
+              color: Colors.blueGrey,
+              buttonBackgroundColor: Colors.blue[100],
               backgroundColor: Colors.white,
               onTap: (index) {
                 setState(() {

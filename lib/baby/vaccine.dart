@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:foodybite_app/pallete.dart';
 import 'package:foodybite_app/widgets/widgets.dart';
 
-class graph extends StatelessWidget {
+class vaccine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -17,7 +17,7 @@ class graph extends StatelessWidget {
             Flexible(
                 child: Center(
                   child: Text(
-                    'Graph',
+                    'Vaccine',
                     style: TextStyle(
                         color: Colors.blue[300],
                         fontSize: 80,

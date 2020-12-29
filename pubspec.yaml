@@ -29,6 +29,8 @@ dependencies:
   cupertino_icons: ^1.0.0
   font_awesome_flutter: ^8.10.0
   google_fonts: ^1.1.1
+  dropdown_search: ^0.4.8
+  persian_datetime_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:
