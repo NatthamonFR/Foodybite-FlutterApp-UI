@@ -1,27 +1,25 @@
-
-
-
-
+import 'package:flutter/material.dart';
+import 'dart:js';
 import 'dart:ui';
-import 'package:dio/dio.dart';
 import 'package:foodybite_app/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:foodybite_app/pallete.dart';
 
+import 'package:foodybite_app/widgets/normal_Dialog.dart';
+import 'package:foodybite_app/widgets/widgets.dart';
 
+class creataccount extends StatefulWidget {
+  @override
+  _creataccountState createState() => _creataccountState();
+}
 
-
-
-class CreateNewAccount extends StatelessWidget {
+class _creataccountState extends State<creataccount> {
   String user, pass;
-
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Stack(
-      children: [
-        BackgroundImage(image: 'assets/images/create acc.png'),
+    return 
         Scaffold(
           backgroundColor: Colors.transparent,
           body: ListView(
@@ -33,10 +31,12 @@ class CreateNewAccount extends StatelessWidget {
                     
             ]
           )
-        ),
-      ],
+       
+      
     );
   }
+
+
 
   Widget userFrom() => Row(mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -97,6 +97,13 @@ Widget conpassFrom() => Row(mainAxisAlignment: MainAxisAlignment.center,
   ],
 );
 
+
+
+
+
+
+
+
  Widget registerButton() => Row(mainAxisAlignment: MainAxisAlignment.center,
    children: [
      Container(
@@ -110,12 +117,7 @@ Widget conpassFrom() => Row(mainAxisAlignment: MainAxisAlignment.center,
 			pass == null ||
 			pass.isEmpty) {
 			print('Have Space');
-      
-
-      
-			}else{
-        reThread();
-      }
+			}
 		},
         child: Text("Register"),
 		),
@@ -123,36 +125,4 @@ Widget conpassFrom() => Row(mainAxisAlignment: MainAxisAlignment.center,
    ],
  );
 
-
-
-Future<Null> reThread()async{
-  String url ='http://192.168.2.56/addData.php?isAdd=true&name=$user&typ=$pass';
-
-
-  try{
-    Response response = await Dio().get(url);
-    print('res = $response');
-  } catch (e){
-
-  }
-
 }
-		
-
-  
-
-
-    
-  
-
- 
-
- 
-}
-
-
-
-
-
-
-

@@ -323,8 +323,8 @@ class _MyHomeState extends State<firstpage> {
               items: <Widget>[
                 Icon(Icons.home,size: 40,color: Colors.white,),
                 Icon(Icons.local_hospital, size: 40,color: Colors.white,),
-                Icon(Icons.menu_book_outlined,size: 40,color: Colors.white,),
-                Icon(Icons.bar_chart_rounded, size: 40,color: Colors.white,),
+                Icon(Icons.local_hospital,size: 40,color: Colors.white,),
+                Icon(Icons.local_hospital, size: 40,color: Colors.white,),
                 Icon(Icons.settings, size: 40,color: Colors.white,)
               ],
               color: Colors.blueGrey,
